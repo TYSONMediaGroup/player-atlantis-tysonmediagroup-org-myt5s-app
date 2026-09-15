@@ -387,6 +387,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     if (configGoogleClientId) configGoogleClientId.value = googleClientId;
     if (configDiscordClientId) configDiscordClientId.value = discordClientId;
+    const originDisplay = document.getElementById('current-origin-display');
+    if (originDisplay) originDisplay.textContent = window.location.origin;
 
     if (saveOauthConfigBtn) {
         saveOauthConfigBtn.addEventListener('click', () => {
