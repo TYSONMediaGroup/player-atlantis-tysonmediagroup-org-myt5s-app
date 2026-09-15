@@ -581,7 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (label) {
                 label.textContent = `Liked Songs (${likedTrackIds.length})`;
             } else {
-                likedTab.textContent = `❤️ Liked Songs (${likedTrackIds.length})`;
+                likedTab.textContent = `Liked Songs (${likedTrackIds.length})`;
             }
         });
     }
@@ -632,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <strong style="color: #fff; font-size: 0.88rem;">${pl.title}</strong>
                         <p style="font-size: 0.72rem; color: #94a3b8;">${pl.trackIds ? pl.trackIds.length : 0} tracks</p>
                     </div>
-                    <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">${isAlreadyIn ? '✓ Added' : '+ Add'}</span>
+                    <span style="font-size: 0.8rem; color: #38bdf8; font-weight: 700;">${isAlreadyIn ? 'Added' : '+ Add'}</span>
                 `;
 
                 item.addEventListener('click', () => {
