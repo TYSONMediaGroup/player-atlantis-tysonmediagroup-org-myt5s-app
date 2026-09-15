@@ -3336,25 +3336,10 @@ body.app-mode {
 .app-station-indicator {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-subtle);
     padding: 0.35rem 0.85rem;
     border-radius: 20px;
-}
-
-.pulse-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
-    animation: pulseGlow 2s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.6; }
 }
 
 .station-status-label {
