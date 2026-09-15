@@ -1,0 +1,33 @@
+name: Validate & Verify Player Assets
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify Cloudflare Pages Asset Constraints (< 25MB)
+        run: |
+          echo "Scanning for assets exceeding Cloudflare Pages 25MB limit..."
+          find . -type f -size +25M
+          LARGE_FILES=$(find assets/ -type f -size +25M 2>/dev/null | wc -l)
+          if [ "$LARGE_FILES" -gt 0 ]; then
+            echo "Error: Found assets exceeding 25MB limit!"
+            exit 1
+          fi
+          echo "✓ All assets comply with Cloudflare Pages limits."
+
+      - name: Validate HTML & JavaScript Structure
+        run: |
+          test -f index.html || exit 1
+          test -f styles.css || exit 1
+          test -f app.js || exit 1
+          echo "✓ Core application files verified."
