@@ -576,10 +576,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. PLAYLIST RENDERING, LIKES & CUSTOM PLAYLISTS
     // -------------------------------------------------------------
     function updateLikedCount() {
-        const likedTab = document.querySelector('.filter-tab[data-category="liked"]');
-        if (likedTab) {
-            likedTab.textContent = `❤️ Liked Songs (${likedTrackIds.length})`;
-        }
+        document.querySelectorAll('.filter-tab[data-category="liked"]').forEach(likedTab => {
+            const label = likedTab.querySelector('.tab-label');
+            if (label) {
+                label.textContent = `Liked Songs (${likedTrackIds.length})`;
+            } else {
+                likedTab.textContent = `❤️ Liked Songs (${likedTrackIds.length})`;
+            }
+        });
     }
 
     function toggleLikeTrack(trackId) {

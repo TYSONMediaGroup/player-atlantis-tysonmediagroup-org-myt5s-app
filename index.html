@@ -11,7 +11,7 @@
     <!-- Google Identity Services SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="standalone-player-body">
+<body class="standalone-player-body app-mode">
     <!-- T5S Standalone Boot Splash Sequence (Pure Black, Crisp, No Glow) -->
     <div class="t5s-boot-splash-container" id="t5s-boot-splash" aria-hidden="true">
         <!-- Phase 1: T5S Boot Logo (0.75s) -->
@@ -24,25 +24,45 @@
         </div>
     </div>
 
-    <!-- Main Top Navigation Header -->
-    <header class="main-header" id="main-header">
-        <div class="container-wide nav-container">
-            <a href="index.html" class="nav-logo" aria-label="TYSON Atlantis Player App">
-                <img src="assets/images/TYSONAtlantisBanner.png" alt="TYSON Atlantis" class="logo-img">
-            </a>
+    <!-- MAIN PRO WEB APP SHELL -->
+    <div class="app-workspace-root">
+        <!-- App Top Navigation Bar (Clean Pro App Chrome) -->
+        <header class="app-topbar" id="main-header">
+            <div class="app-topbar-left">
+                <a href="index.html" class="app-brand-logo" aria-label="TYSON Atlantis App">
+                    <img src="assets/images/TYSONAtlantisBanner.png" alt="TYSON Atlantis" class="app-logo-img">
+                </a>
+                <span class="app-badge-beta">BETA</span>
+            </div>
 
-            <nav class="main-nav" id="main-nav">
-                <a href="index.html" class="nav-link active">Player App</a>
-                <a href="#station" class="nav-link">⚡ Sped Up &amp; Slowed</a>
-                <a href="#playlists" class="nav-link">📁 Playlists</a>
-                <button class="nav-link" id="header-cinema-btn">⛶ Cinema</button>
-            </nav>
+            <div class="app-topbar-center">
+                <div class="app-station-indicator">
+                    <span class="pulse-dot"></span>
+                    <span class="station-status-label">SPED UP • SLOWED • 432HZ DSP STATION</span>
+                </div>
+            </div>
 
-            <div class="nav-actions">
+            <div class="app-topbar-right">
+                <button class="app-bar-btn" id="header-cinema-btn" title="Open Fullscreen Cinema Mode">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                    <span>Cinema</span>
+                </button>
+
+                <button class="app-bar-btn" id="settings-toggle-btn" aria-label="Theme & Appearance Settings" title="Appearance Settings">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span>Theme</span>
+                </button>
+
+                <!-- Hidden audio button kept for app.js backwards-compatibility -->
+                <button id="global-audio-toggle" style="display: none;"><span id="global-audio-label"></span></button>
+
                 <!-- User Profile / Auth Area -->
                 <div class="auth-header-wrap" id="auth-header-wrap">
                     <button class="btn-auth-signin" id="header-signin-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
                         <span>Sign In</span>
                     </button>
                     <div class="user-profile-badge" id="user-profile-badge" style="display: none;">
@@ -64,241 +84,234 @@
                         </div>
                     </div>
                 </div>
-
-                <button id="global-audio-toggle" class="btn btn-outline btn-sm audio-play-btn" title="Toggle Audio Player">
-                    <span id="global-audio-label">Play Sunset Theme</span>
-                </button>
-                <button class="settings-btn" id="settings-toggle-btn" aria-label="Open Appearance Settings" title="Appearance Settings">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                </button>
-                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
-                    <span></span><span></span><span></span>
-                </button>
             </div>
+        </header>
+
+        <!-- App Body Layout (Left Sidebar Rail + Main Viewport) -->
+        <div class="app-body-container">
+            <!-- Left Sidebar Navigation Rail -->
+            <aside class="app-sidebar-rail" id="app-sidebar">
+                <div class="sidebar-section-title">STATIONS &amp; VIBES</div>
+                <nav class="sidebar-nav-list" id="playlist-filters-bar">
+                    <button class="sidebar-tab-btn filter-tab active" data-category="all">
+                        <span class="tab-icon">🔥</span>
+                        <span class="tab-label">All Tracks</span>
+                        <span class="tab-count">14</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="slowed">
+                        <span class="tab-icon">🌙</span>
+                        <span class="tab-label">Slowed &amp; Reverb</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="nightcore">
+                        <span class="tab-icon">⚡</span>
+                        <span class="tab-label">Sped Up &amp; Boosted</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="emotion">
+                        <span class="tab-icon">🌊</span>
+                        <span class="tab-label">432Hz Submerged</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="nostalgia">
+                        <span class="tab-icon">📼</span>
+                        <span class="tab-label">PS2 &amp; 2010 Core</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="dnb">
+                        <span class="tab-icon">🌴</span>
+                        <span class="tab-label">Liquid Jungle / DnB</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-divider"></div>
+
+                <div class="sidebar-section-title">YOUR LIBRARY</div>
+                <nav class="sidebar-nav-list">
+                    <button class="sidebar-tab-btn filter-tab" data-category="liked">
+                        <span class="tab-icon">❤️</span>
+                        <span class="tab-label">Liked Songs</span>
+                    </button>
+                    <button class="sidebar-tab-btn filter-tab" data-category="custom">
+                        <span class="tab-icon">📁</span>
+                        <span class="tab-label">Custom Playlists</span>
+                    </button>
+                </nav>
+
+                <div class="sidebar-footer-action">
+                    <button class="btn-sidebar-create-playlist" id="open-create-playlist-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>New Playlist</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Workstation Viewport -->
+            <main class="app-main-viewport" id="spa-main-content">
+                <!-- Dual-Rack Live Console -->
+                <div class="deck-console-grid">
+                    <!-- Unit 1: Analog Vinyl & Tape Deck -->
+                    <div class="deck-unit deck-vinyl-unit">
+                        <div class="unit-top-label">
+                            <span>ANALOG VINYL &amp; TAPE DECK</span>
+                            <span id="deck-status-text" class="unit-indicator">STANDBY</span>
+                        </div>
+
+                        <!-- Spinning Vinyl Turntable -->
+                        <div class="vinyl-turntable-stage">
+                            <div class="vinyl-disc-large" id="main-deck-vinyl">
+                                <div class="vinyl-groove-rings"></div>
+                                <div class="vinyl-center-art">
+                                    <img src="assets/images/TYSONAtlantisBanner.png" alt="Atlantis Art" class="vinyl-logo-center">
+                                </div>
+                                <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
+                            </div>
+                        </div>
+
+                        <!-- Active Track Details -->
+                        <div class="deck-track-details">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
+                                <span class="deck-track-tag" id="deck-track-tag">OFFICIAL SIGNATURE</span>
+                                <button class="btn-like-track" id="deck-like-current-btn" title="Like / Save to Favorites">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                </button>
+                            </div>
+                            <h3 class="deck-track-title" id="deck-track-title">tysonmediagroupsunset</h3>
+                            <p class="deck-track-artist" id="deck-track-artist">TYSON Media Group &amp; Atlantis</p>
+                        </div>
+
+                        <!-- Timeline Scrubber -->
+                        <div class="deck-scrubber-row">
+                            <span class="time-label" id="deck-time-current">0:00</span>
+                            <div class="deck-progress-bar-wrap" id="deck-progress-wrap">
+                                <div class="deck-progress-buffer" id="deck-buffer-bar"></div>
+                                <div class="deck-progress-fill" id="deck-progress-fill"></div>
+                                <div class="deck-scrub-handle" id="deck-scrub-handle"></div>
+                            </div>
+                            <span class="time-label" id="deck-time-duration">0:00</span>
+                        </div>
+
+                        <!-- Transport Controls -->
+                        <div class="deck-transport-controls">
+                            <button class="btn-transport" id="deck-shuffle-btn" title="Shuffle Playlist">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
+                            </button>
+                            <button class="btn-transport" id="deck-prev-btn" title="Previous Track">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line></svg>
+                            </button>
+                            <button class="btn-transport-play" id="deck-play-btn" title="Play / Pause">
+                                <svg id="deck-play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                <svg id="deck-pause-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </button>
+                            <button class="btn-transport" id="deck-next-btn" title="Next Track">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line></svg>
+                            </button>
+                            <button class="btn-transport" id="deck-loop-btn" title="Repeat Track">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                            </button>
+                        </div>
+
+                        <!-- Cinema Fullscreen Trigger Button -->
+                        <div style="margin-top: 0.85rem; text-align: center;">
+                            <button class="btn-cinema-action" id="deck-cinema-btn" style="width: 100%; justify-content: center;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                <span>Fullscreen Cinema Mode</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Unit 2: Spectrum Visualizer & Sped Up / Slowed DSP Engine -->
+                    <div class="deck-unit deck-visualizer-unit">
+                        <div class="unit-top-label">
+                            <span>T5S MONITOR &bull; SPECTRAL FFT</span>
+                            <div class="vis-mode-pills">
+                                <button class="vis-mode-btn active" data-vis-mode="bars">Bars</button>
+                                <button class="vis-mode-btn" data-vis-mode="monoliths">PS2</button>
+                                <button class="vis-mode-btn" data-vis-mode="wave">Oscilloscope</button>
+                                <button class="vis-mode-btn" data-vis-mode="cinema">Cinema</button>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Monitor -->
+                        <div class="canvas-screen-container player-monitor-screen" style="background-image: url('assets/images/TYSON%20T5S%20Login%20Backdrop.jpg'); background-size: cover; background-position: center;">
+                            <div class="deck-image-overlay"></div>
+                            <canvas id="deck-audio-canvas" width="640" height="220"></canvas>
+                            <div class="canvas-screen-glare"></div>
+                            <div class="canvas-watermark">T5S DSP &bull; REALTIME FFT</div>
+                        </div>
+
+                        <!-- SPED UP & SLOWED DSP ENGINE -->
+                        <div class="spedup-slowed-dock">
+                            <div class="vibe-section-header">
+                                <span class="vibe-tag">⚡ SPEED &amp; VIBE ENGINE</span>
+                                <span class="vibe-preset-speed" id="dsp-current-speed-tag">1.00x</span>
+                            </div>
+
+                            <div class="speed-vibe-pills">
+                                <button class="btn-vibe-preset" data-speed="0.70" data-reverb="true" data-sub="true">
+                                    <span class="vibe-preset-speed">0.70x</span>
+                                    <span class="vibe-preset-name">Chopped</span>
+                                </button>
+                                <button class="btn-vibe-preset" data-speed="0.80" data-reverb="true" data-sub="false">
+                                    <span class="vibe-preset-speed">0.80x</span>
+                                    <span class="vibe-preset-name">Slowed</span>
+                                </button>
+                                <button class="btn-vibe-preset" data-speed="0.85" data-reverb="true" data-sub="false">
+                                    <span class="vibe-preset-speed">0.85x</span>
+                                    <span class="vibe-preset-name">432Hz</span>
+                                </button>
+                                <button class="btn-vibe-preset active" data-speed="1.00" data-reverb="false" data-sub="false">
+                                    <span class="vibe-preset-speed">1.00x</span>
+                                    <span class="vibe-preset-name">Master</span>
+                                </button>
+                                <button class="btn-vibe-preset" data-speed="1.15" data-reverb="false" data-sub="false">
+                                    <span class="vibe-preset-speed">1.15x</span>
+                                    <span class="vibe-preset-name">Sped Up</span>
+                                </button>
+                                <button class="btn-vibe-preset" data-speed="1.25" data-reverb="false" data-sub="false">
+                                    <span class="vibe-preset-speed">1.25x</span>
+                                    <span class="vibe-preset-name">Nightcore</span>
+                                </button>
+                                <button class="btn-vibe-preset" data-speed="1.40" data-reverb="false" data-sub="false">
+                                    <span class="vibe-preset-speed">1.40x</span>
+                                    <span class="vibe-preset-name">Hyper</span>
+                                </button>
+                            </div>
+
+                            <!-- Live Sliders -->
+                            <div class="dsp-sliders-grid">
+                                <div class="dsp-slider-box">
+                                    <div class="dsp-slider-label-row">
+                                        <span>Speed Rate</span>
+                                        <span id="dsp-speed-val">1.00x</span>
+                                    </div>
+                                    <input type="range" id="dsp-speed-slider" min="0.50" max="1.75" step="0.01" value="1.00" class="dsp-slider">
+                                </div>
+                                <div class="dsp-slider-box">
+                                    <div class="dsp-slider-label-row">
+                                        <span>Master Volume</span>
+                                        <span id="deck-volume-val">90%</span>
+                                    </div>
+                                    <input type="range" id="deck-volume-slider" min="0" max="1" step="0.01" value="0.90" class="dsp-slider volume-slider">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discography & Playlists Repertoire Grid -->
+                <div class="app-repertoire-section" id="playlists">
+                    <div class="repertoire-header-bar">
+                        <div class="repertoire-title-group">
+                            <span class="repertoire-mini-tag">ACTIVE SELECTION</span>
+                            <h2 class="repertoire-main-title">Track Discography</h2>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Repertoire List Grid -->
+                    <div class="playlist-items-grid" id="deck-playlist-list">
+                        <!-- Populated dynamically by app.js -->
+                    </div>
+                </div>
+            </main>
         </div>
-    </header>
-
-    <main id="spa-main-content">
-        <!-- STANDALONE PLAYER VIEW -->
-        <div id="view-player" class="page-view active-view">
-            <!-- Player Hero Stage with Signature Oversized Translucent Glass Backdrop Box -->
-            <section class="hero-section player-hero-section">
-                <!-- Ambient Track-Reactive Frosted Glass Background Stage -->
-                <div class="hero-bg-carousel player-hero-carousel" id="player-hero-carousel" aria-hidden="true">
-                    <div class="hero-bg-slide player-track-slide active" id="player-hero-slide-1" style="background-image: url('assets/images/TYSON%20T5S%20Login%20Backdrop.jpg');"></div>
-                    <div class="hero-bg-slide player-track-slide" id="player-hero-slide-2"></div>
-                    <div class="hero-bg-overlay"></div>
-                </div>
-
-                <div class="container-wide hero-container player-hero-container">
-                    <div class="hero-top-row">
-                        <div class="hero-tag-wrap">
-                            <span class="editorial-tag">TYSON ATLANTIS &bull; SPED UP &bull; SLOWED &bull; 432HZ DSP STATION</span>
-                        </div>
-                    </div>
-
-                    <!-- Bottom-Left Anchored Huge Faint Title -->
-                    <div class="hero-bottom-left-anchor">
-                        <h1 class="page-title hero-player-title oversized-faint-title">Atlantis</h1>
-                        <p class="hero-emotional-subtitle">
-                            Speed Tuning, Nightcore Pitch, Cathedral Reverbs &amp; Ambient Visuals
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding deck-main-stage" id="station" style="padding-top: 1rem;">
-                <div class="container-wide">
-                    <!-- Top Deck Rack: 2-Column Console (Vinyl Turntable + Visualizer Monitor & Volume) -->
-                    <div class="deck-console-grid">
-                        <!-- Console Unit 1: Vinyl Deck & Primary Playback -->
-                        <div class="deck-unit deck-vinyl-unit">
-                            <div class="unit-top-label">
-                                <span>ANALOG VINYL &amp; TAPE DECK</span>
-                                <span id="deck-status-text" class="unit-indicator">STANDBY</span>
-                            </div>
-
-                            <!-- Large Spinning Vinyl Element -->
-                            <div class="vinyl-turntable-stage">
-                                <div class="vinyl-disc-large" id="main-deck-vinyl">
-                                    <div class="vinyl-groove-rings"></div>
-                                    <div class="vinyl-center-art">
-                                        <img src="assets/images/TYSONAtlantisBanner.png" alt="Atlantis Art" class="vinyl-logo-center">
-                                    </div>
-                                    <div class="vinyl-tonearm" id="vinyl-tonearm"></div>
-                                </div>
-                            </div>
-
-                            <!-- Active Song Info -->
-                            <div class="deck-track-details">
-                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
-                                    <span class="deck-track-tag" id="deck-track-tag">OFFICIAL SIGNATURE</span>
-                                    <button class="btn-like-track" id="deck-like-current-btn" title="Like / Save to Favorites">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                    </button>
-                                </div>
-                                <h3 class="deck-track-title" id="deck-track-title">tysonmediagroupsunset</h3>
-                                <p class="deck-track-artist" id="deck-track-artist">TYSON Media Group &amp; Atlantis</p>
-                            </div>
-
-                            <!-- Scrubber & Time -->
-                            <div class="deck-scrubber-row">
-                                <span class="time-label" id="deck-time-current">0:00</span>
-                                <div class="deck-progress-bar-wrap" id="deck-progress-wrap">
-                                    <div class="deck-progress-buffer" id="deck-buffer-bar"></div>
-                                    <div class="deck-progress-fill" id="deck-progress-fill"></div>
-                                    <div class="deck-scrub-handle" id="deck-scrub-handle"></div>
-                                </div>
-                                <span class="time-label" id="deck-time-duration">0:00</span>
-                            </div>
-
-                            <!-- Transport Controls -->
-                            <div class="deck-transport-controls">
-                                <button class="btn-transport" id="deck-shuffle-btn" title="Shuffle Playlist">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line><polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line><line x1="4" y1="4" x2="9" y2="9"></line></svg>
-                                </button>
-                                <button class="btn-transport" id="deck-prev-btn" title="Previous Track">
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2.5"></line></svg>
-                                </button>
-                                <button class="btn-transport-play" id="deck-play-btn" title="Play / Pause">
-                                    <svg id="deck-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                    <svg id="deck-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                                </button>
-                                <button class="btn-transport" id="deck-next-btn" title="Next Track">
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line></svg>
-                                </button>
-                                <button class="btn-transport" id="deck-loop-btn" title="Repeat Track">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-                                </button>
-                            </div>
-
-                            <!-- Quick Cinema Fullscreen Button -->
-                            <div style="margin-top: 1rem; text-align: center;">
-                                <button class="btn-cinema-action" id="deck-cinema-btn" style="width: 100%; justify-content: center;">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-                                    <span>Enter Fullscreen Cinema Mode</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Console Unit 2: T5S Monitor & Sped Up / Slowed DSP Engine -->
-                        <div class="deck-unit deck-visualizer-unit">
-                            <div class="unit-top-label">
-                                <span>T5S LOGIN BACKDROP MONITOR</span>
-                                <div class="vis-mode-pills">
-                                    <button class="vis-mode-btn active" data-vis-mode="bars">Bars</button>
-                                    <button class="vis-mode-btn" data-vis-mode="monoliths">PS2 Monoliths</button>
-                                    <button class="vis-mode-btn" data-vis-mode="wave">Oscilloscope</button>
-                                    <button class="vis-mode-btn" data-vis-mode="cinema">Studio Cinema</button>
-                                </div>
-                            </div>
-
-                            <!-- T5S Login Backdrop & Visualizer Screen -->
-                            <div class="canvas-screen-container player-monitor-screen" style="background-image: url('assets/images/TYSON%20T5S%20Login%20Backdrop.jpg'); background-size: cover; background-position: center;">
-                                <div class="deck-image-overlay"></div>
-                                <canvas id="deck-audio-canvas" width="640" height="240"></canvas>
-                                <div class="canvas-screen-glare"></div>
-                                <div class="canvas-watermark">T5S LOGIN &bull; REALTIME FFT</div>
-                            </div>
-
-                            <!-- SPED UP & SLOWED DSP STATION (Speed Tuning + Pitch Presets) -->
-                            <div class="spedup-slowed-dock">
-                                <div class="vibe-section-header">
-                                    <span class="vibe-tag">⚡ SPEED &amp; VIBE ENGINE</span>
-                                    <span class="vibe-preset-speed" id="dsp-current-speed-tag">1.00x</span>
-                                </div>
-
-                                <div class="speed-vibe-pills">
-                                    <button class="btn-vibe-preset" data-speed="0.70" data-reverb="true" data-sub="true">
-                                        <span class="vibe-preset-speed">0.70x</span>
-                                        <span class="vibe-preset-name">Chopped Drift</span>
-                                    </button>
-                                    <button class="btn-vibe-preset" data-speed="0.80" data-reverb="true" data-sub="false">
-                                        <span class="vibe-preset-speed">0.80x</span>
-                                        <span class="vibe-preset-name">Slowed + Reverb</span>
-                                    </button>
-                                    <button class="btn-vibe-preset" data-speed="0.85" data-reverb="true" data-sub="false">
-                                        <span class="vibe-preset-speed">0.85x</span>
-                                        <span class="vibe-preset-name">2010 Dusk (432Hz)</span>
-                                    </button>
-                                    <button class="btn-vibe-preset active" data-speed="1.00" data-reverb="false" data-sub="false">
-                                        <span class="vibe-preset-speed">1.00x</span>
-                                        <span class="vibe-preset-name">Original Master</span>
-                                    </button>
-                                    <button class="btn-vibe-preset" data-speed="1.15" data-reverb="false" data-sub="false">
-                                        <span class="vibe-preset-speed">1.15x</span>
-                                        <span class="vibe-preset-name">Sped Up Pace</span>
-                                    </button>
-                                    <button class="btn-vibe-preset" data-speed="1.25" data-reverb="false" data-sub="false">
-                                        <span class="vibe-preset-speed">1.25x</span>
-                                        <span class="vibe-preset-name">Nightcore Boost</span>
-                                    </button>
-                                    <button class="btn-vibe-preset" data-speed="1.40" data-reverb="false" data-sub="false">
-                                        <span class="vibe-preset-speed">1.40x</span>
-                                        <span class="vibe-preset-name">Hyperdrive</span>
-                                    </button>
-                                </div>
-
-                                <!-- Live Tuning Sliders -->
-                                <div class="dsp-sliders-grid">
-                                    <div class="dsp-slider-box">
-                                        <div class="dsp-slider-label-row">
-                                            <span>Fine Speed Slider</span>
-                                            <span id="dsp-speed-val">1.00x</span>
-                                        </div>
-                                        <input type="range" id="dsp-speed-slider" min="0.50" max="1.75" step="0.01" value="1.00" class="dsp-slider">
-                                    </div>
-                                    <div class="dsp-slider-box">
-                                        <div class="dsp-slider-label-row">
-                                            <span>Master Volume</span>
-                                            <span id="deck-volume-val">90%</span>
-                                        </div>
-                                        <input type="range" id="deck-volume-slider" min="0" max="1" step="0.01" value="0.90" class="dsp-slider volume-slider">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Deck Console: Full Playlist Selector & Filter Library -->
-                    <div class="deck-playlist-container" id="playlists">
-                        <div class="playlist-header-row">
-                            <div>
-                                <span class="editorial-tag">CURATED &amp; CUSTOM REPERTOIRE</span>
-                                <h2 class="editorial-title">Playlists &amp; Discography</h2>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <button class="create-playlist-btn" id="open-create-playlist-btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                    <span>Create Playlist</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Playlist Filters Bar -->
-                        <div class="playlist-filters-bar" id="playlist-filters-bar">
-                            <button class="filter-tab active" data-category="all">🔥 All Tracks (14)</button>
-                            <button class="filter-tab" data-category="slowed">🌙 Slowed &amp; Reverb</button>
-                            <button class="filter-tab" data-category="nightcore">⚡ Sped Up &amp; Nightcore</button>
-                            <button class="filter-tab" data-category="emotion">🌊 432Hz Submerged</button>
-                            <button class="filter-tab" data-category="nostalgia">📼 PS2 &amp; 2010 Core</button>
-                            <button class="filter-tab" data-category="dnb">🌴 Ambient Jungle &amp; DnB</button>
-                            <button class="filter-tab" data-category="liked">❤️ Liked Songs (0)</button>
-                            <button class="filter-tab" data-category="custom">📁 My Playlists</button>
-                        </div>
-
-                        <!-- Playlist Cards Grid -->
-                        <div class="playlist-items-grid" id="deck-playlist-list">
-                            <!-- Injected dynamically by app.js -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+    </div>
 
     <!-- FULLSCREEN CINEMA MODE OVERLAY (Supports Song-Specific GIF / Video / Custom URL) -->
     <div class="fullscreen-cinema-overlay" id="fullscreen-cinema-overlay" aria-hidden="true">
@@ -319,7 +332,7 @@
             <div class="cinema-top-actions">
                 <button class="btn-cinema-action" id="cinema-change-media-btn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    <span>Change Video / GIF / Image</span>
+                    <span>Change Visuals / Video</span>
                 </button>
                 <button class="btn-cinema-action" id="cinema-exit-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -328,7 +341,7 @@
             </div>
         </div>
 
-        <!-- Center Rotating Vinyl & Audio Visualizer Ring -->
+        <!-- Center Rotating Vinyl -->
         <div class="fullscreen-cinema-center">
             <div class="cinema-vinyl-wrap" id="cinema-vinyl-wrap">
                 <div class="vinyl-disc-large" style="width: 100%; height: 100%;">
@@ -365,17 +378,16 @@
         </div>
     </div>
 
-    <!-- CINEMA MEDIA PICKER MODAL (Preset visualizers / GIFs / custom URL) -->
+    <!-- CINEMA MEDIA PICKER MODAL -->
     <div class="cinema-media-picker-modal" id="cinema-media-picker-modal" aria-hidden="true">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-            <h3 style="color: #ffffff; font-size: 1.1rem; font-weight: 600;">Fullscreen Cinema Visuals</h3>
-            <button id="close-cinema-media-modal-btn" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">&times;</button>
+            <h3 style="font-size: 1.1rem; color: #fff; font-family: var(--font-heading);">Choose Visual Backdrop</h3>
+            <button id="close-cinema-media-modal-btn" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
         </div>
-        <p style="font-size: 0.82rem; color: #94a3b8;">Choose a backdrop preset or paste a custom Video, GIF, or Image URL for this song.</p>
 
-        <div class="media-preset-grid">
+        <div class="media-presets-grid">
             <div class="media-preset-card active" data-media-type="image" data-media-src="assets/images/ATLANTISPLAYER_NightGasStation1.jpg">
-                <img src="assets/images/ATLANTISPLAYER_NightGasStation1.jpg" alt="Night Gas Station">
+                <img src="assets/images/ATLANTISPLAYER_NightGasStation1.jpg" alt="Night Drift">
                 <span>Night Gas Station</span>
             </div>
             <div class="media-preset-card" data-media-type="image" data-media-src="assets/images/ATLANTIS-Sunset.jpg">
@@ -409,7 +421,7 @@
         </div>
     </div>
 
-    <!-- SIGN IN MODAL (GOOGLE & DISCORD REAL OAUTH & CONFIGURATION) -->
+    <!-- SIGN IN MODAL (GOOGLE & DISCORD REAL OAUTH) -->
     <div class="settings-modal" id="auth-modal" aria-hidden="true" role="dialog">
         <div class="settings-modal-backdrop" id="auth-modal-backdrop"></div>
         <div class="settings-modal-dialog auth-modal-dialog">
@@ -436,7 +448,7 @@
                 <!-- Expandable Real OAuth Client Credentials Config -->
                 <div style="margin-top: 1rem; text-align: left; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
                     <details style="font-size: 0.82rem; color: #94a3b8; cursor: pointer;">
-                        <summary style="font-weight: 600; color: #38bdf8; outline: none; margin-bottom: 0.6rem;">⚙️ Configure OAuth Client IDs (Cloud Project &amp; Discord App)</summary>
+                        <summary style="font-weight: 600; color: #38bdf8; outline: none; margin-bottom: 0.6rem;">⚙️ Configure OAuth Client IDs</summary>
                         <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; background: #000; padding: 0.85rem; border-radius: 6px; border: 1px solid #1e293b;">
                             <div>
                                 <label style="display: block; font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.25rem;">Google Client ID (Google Cloud Console):</label>
@@ -498,51 +510,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <div class="container-wide">
-            <div class="footer-grid">
-                <div class="footer-brand-col">
-                    <img src="assets/images/TYSONAtlantisBanner.png" alt="TYSON Atlantis" class="footer-logo">
-                    <p class="footer-brand-desc">
-                        A specialized atmospheric sound research and sonic engineering division of TYSON Media Group.
-                    </p>
-                </div>
-
-                <div class="footer-links-col">
-                    <h4 class="footer-col-title">Player Navigation</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="index.html">Standalone Player App</a></li>
-                        <li><a href="#station">Speed &amp; Vibe Engine</a></li>
-                        <li><a href="#playlists">Playlists &amp; Liked Tracks</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-links-col">
-                    <h4 class="footer-col-title">Media Group Registry</h4>
-                    <ul class="footer-links-list">
-                        <li><a href="https://tysonmediagroup.org" target="_blank" rel="noopener">tysonmediagroup.org &nearr;</a></li>
-                        <li><a href="https://atlantis.player.tysonmediagroup.org.myt5s.app">atlantis.player.tysonmediagroup.org.myt5s.app</a></li>
-                        <li><a href="https://myt5s.app" target="_blank" rel="noopener">myt5s.app &nearr;</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Centered Italic Centerpiece with Balanced Logo -->
-            <div class="footer-domain-centerpiece">
-                <div class="footer-logo-stage">
-                    <img src="assets/images/TYSONAtlantisBanner.png" alt="TYSON Atlantis" class="footer-trace-logo">
-                </div>
-                <div class="footer-domain-title">atlantis.player.tysonmediagroup.org.myt5s.app</div>
-                <div class="footer-domain-subtext">Sonic Architecture &bull; Sped Up &bull; Slowed + Reverb &bull; Stillness in Motion</div>
-            </div>
-
-            <div class="footer-bottom">
-                <div>&copy; 2026 TYSON Media Group. All rights reserved. Registered acoustic division: <code>atlantis.player.tysonmediagroup.org.myt5s.app</code></div>
-            </div>
-        </div>
-    </footer>
 
     <!-- Theme & Settings Modal -->
     <div class="settings-modal" id="settings-modal" aria-hidden="true" role="dialog">
